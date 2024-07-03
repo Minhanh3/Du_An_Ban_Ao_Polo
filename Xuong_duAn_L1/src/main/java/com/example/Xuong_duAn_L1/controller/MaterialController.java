@@ -1,12 +1,15 @@
 package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Material;
+import com.example.Xuong_duAn_L1.entity.dto.MaterialDto;
 import com.example.Xuong_duAn_L1.service.MaterialService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,7 +22,7 @@ public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
-    @GetMapping("")
+    @GetMapping({"", "/"})
     public String index(Model model,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "10") int size) {
@@ -27,18 +30,20 @@ public class MaterialController {
         Page<Material> materialPage = materialService.getAllMaterialPaged(pageable);
 
         model.addAttribute("list", materialPage.getContent());
-        model.addAttribute("materialNew", new Material());
+        model.addAttribute("materialNew", new MaterialDto());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", materialPage.getTotalPages());
         model.addAttribute("totalItems", materialPage.getTotalElements());
         model.addAttribute("size", size);
-
         return "material/home_material";
     }
 
     @PostMapping("add")
-    public String save(Material material) {
-        materialService.addMaterial(material);
+    public String save(@Valid @ModelAttribute MaterialDto material , BindingResult result) {
+//        materialService.addMaterial(material);
+        if (result.hasErrors()) {
+                return "redirect:/Material/";
+        }
         return "redirect:/Material";
     }
 
