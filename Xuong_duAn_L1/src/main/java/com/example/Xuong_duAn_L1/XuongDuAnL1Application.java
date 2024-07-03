@@ -1,9 +1,11 @@
 package com.example.Xuong_duAn_L1;
 
 import com.example.Xuong_duAn_L1.entity.Color;
+import com.example.Xuong_duAn_L1.entity.Image;
 import com.example.Xuong_duAn_L1.entity.InitializationFlag;
 import com.example.Xuong_duAn_L1.entity.Size;
 import com.example.Xuong_duAn_L1.repository.ColorRepo;
+import com.example.Xuong_duAn_L1.repository.ImageRepo;
 import com.example.Xuong_duAn_L1.repository.InitializationFlagRepo;
 import com.example.Xuong_duAn_L1.repository.SizeRepo;
 import com.example.Xuong_duAn_L1.util.CodeGenerator;
@@ -22,7 +24,8 @@ public class XuongDuAnL1Application implements CommandLineRunner {
     private ColorRepo colorRepo;
     @Autowired
     SizeRepo sizeRepo;
-
+    @Autowired
+    ImageRepo imageRepo;
     public static void main(String[] args) {
         SpringApplication.run(XuongDuAnL1Application.class, args);
     }
@@ -32,7 +35,6 @@ public class XuongDuAnL1Application implements CommandLineRunner {
         System.out.printf("Hello Word");
         // chạy xong cmt lại all dòng dưới
         /*
-
         String[] names = {"white", "black", "wine", "yellow", "olive", "navy"};
         for (String name : names) {
             Color color = new Color();
@@ -51,7 +53,15 @@ public class XuongDuAnL1Application implements CommandLineRunner {
             size.setStatus(1);
             sizeRepo.save(size);
         }
-
+        for (int i = 0; i < 1; i++) {
+            Image image = new Image();
+            image.setCode("I001");
+            image.setName("Anh se");
+            image.setUploadDate(LocalDate.now());
+            image.setStatus(1);
+            imageRepo.save(image);
+        }
          */
+
     }
 }
