@@ -8,8 +8,8 @@
 </head>
 <body>
 <div th:replace="frag/header :: header"></div>
-    <h1>manhdz</h1>
 <div class="d-flex container" style="min-height: 448px;">
+
     <!--    <div class="w-25">-->
     <!--        <div th:replace="fragments/sidebar :: sidebar"></div>-->
     <!--    </div>-->
@@ -95,10 +95,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="o, iterStat : ${list}" >
-<!--                        th:id="'product-row-' + ${o.idProduct}"-->
-<!--                        th:onclick="'selectProduct(' + ${o.idProduct} + ')'"-->
-<!--                    >-->
+                    <tr th:each="o, iterStat : ${list}" th:onclick="'window.location.href=\'/productDetail/addDetail/' + ${o.idProduct} + '\''">
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${o.code}"></td>
                         <td th:text="${o.name}"></td>
@@ -141,180 +138,39 @@
                 Showing page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span>
                 (Total items: <span th:text="${totalItems}"></span>)
             </div>
-<!--            <h3>Product Detail</h3>-->
-            <!--            <div class="row mt-3">-->
-            <!--                <form class="row" th:action="@{/productDetail/add}" method="POST" th:object="${addct}">-->
-            <!--                    <input type="hidden" name="idProductDetail">-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">Id sản phẩm: </label>-->
-            <!--                        <input class="form-control" type="text" name="idProduct" th:field="*{idProduct}" readonly>-->
-            <!--                        &lt;!&ndash;                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>&ndash;&gt;-->
-            <!--                    </div>-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">Code: </label>-->
-            <!--                        <input class="form-control" type="text" name="code" required>-->
-            <!--                        &lt;!&ndash;                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: brown"></p>&ndash;&gt;-->
-            <!--                    </div>-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">InputPrice: </label>-->
-            <!--                        <input class="form-control" type="number" name="inputPrice" required>-->
-            <!--                    </div>-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">Price: </label>-->
-            <!--                        <input class="form-control" type="number" name="Price" required>-->
-            <!--                    </div>-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">Amount: </label>-->
-            <!--                        <input class="form-control" type="number" name="amount" required>-->
-            <!--                    </div>-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">Size</label>-->
-            <!--                        <select class="form-control" name="idSize" id="idSize" required>-->
-            <!--                            <option value=""> &#45;&#45; Choose size</option>-->
-            <!--                            <option th:each="c : ${size}" th:value="${c.idSize}" th:text="${c.name}"></option>-->
-            <!--                        </select>-->
-            <!--                    </div>-->
-            <!--                    <div class="col-6">-->
-            <!--                        <label class="form-label">Color</label>-->
-            <!--                        <select class="form-control" name="idColor" id="idColor" required>-->
-            <!--                            <option value=""> &#45;&#45; Choose color</option>-->
-            <!--                            <div th:each="c:${color}">-->
-            <!--                                <option th:value="${c.idColor}" th:text="${c.name}"></option>-->
-            <!--                            </div>-->
-            <!--                        </select>-->
-            <!--                    </div>-->
-            <!--                    <div class="mt-5">-->
-            <!--                        <button class="btn btn-success" type="submit">Add</button>-->
-            <!--                    </div>-->
-            <!--                </form>-->
-            <!--            </div>-->
-<!--            <div id="productDetailContainer" style="display: none;">-->
-<!--                <table class="table table-hover" id="productDetailTable">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th scope="col">#</th>-->
-<!--                        <th scope="col">Code</th>-->
-<!--                        <th scope="col">Product Name</th>-->
-<!--                        <th scope="col">Amount</th>-->
-<!--                        <th scope="col">Input Price</th>-->
-<!--                        <th scope="col">Price</th>-->
-<!--                        <th scope="col">Action</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr th:each="ct , star : ${listspct}">-->
-<!--                        <th scope="row" th:text="${star.count}"></th>-->
-<!--                        <th scope="row" th:text="${ct.code}"></th>-->
-<!--                        <th scope="row" th:text="${ct.product.name} + ' - '-->
-<!--                                        + ${ct.size.name} + ' - ' + ${ct.color.name}"></th>-->
-<!--                        <th scope="row" th:text="${ct.amount}"></th>-->
-<!--                        <th scope="row" th:text="${ct.inputPrice}"></th>-->
-<!--                        <th scope="row" th:text="${ct.price}"></th>-->
-<!--                        <th scope="row">-->
-<!--                            <a class="btn btn-sm btn-danger"-->
-<!--                               th:href="@{/product/delete/{id}(id=${ct.idProductDetail})}">Remove</a>-->
-<!--                        </th>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
         </div>
     </div>
 </div>
 <div th:replace="frag/footer :: footer"></div>
 <!--<script>-->
+<!--    // document.addEventListener('DOMContentLoaded', function () {-->
+<!--    // Đặt tất cả code JavaScript ở đây-->
+<!--    console.log('Container:', document.getElementById('productDetailContainer'));-->
+<!--    console.log('Table body:', document.querySelector('#productDetailTable tbody'));-->
 <!--    function selectProduct(idProduct) {-->
 <!--        document.getElementById('idProduct').value = idProduct;-->
 
-<!--        // AJAX call to fetch product details-->
+<!--        let container = document.getElementById('productDetailContainer');-->
+<!--        let tableBody = document.querySelector('#productDetailTable tbody');-->
+
+<!--        if (!container || !tableBody) {-->
+<!--            console.error('Không tìm thấy phần tử container hoặc bảng chi tiết sản phẩm');-->
+<!--            return;-->
+<!--        }-->
+
+<!--        container.style.display = 'block';-->
+<!--        tableBody.innerHTML = '<tr><td colspan="7">Đang tải dữ liệu...</td></tr>';-->
+
 <!--        fetch('/product/details/' + idProduct)-->
 <!--            .then(response => response.json())-->
 <!--            .then(data => {-->
-<!--                // Update the product details table-->
-<!--                let tableBody = document.querySelector('#productDetailTable tbody');-->
-<!--                tableBody.innerHTML = ''; // Clear existing rows-->
-<!--                data.forEach((detail, index) => {-->
-<!--                    let row = `-->
-<!--                        <tr>-->
-<!--                            <th scope="row">${index + 1}</th>-->
-<!--                            <th scope="row">${detail.code}</th>-->
-<!--                            <th scope="row">${detail.product.name} - ${detail.size.name} - ${detail.color.name}</th>-->
-<!--                            <th scope="row">${detail.amount}</th>-->
-<!--                            <th scope="row">${detail.inputPrice}</th>-->
-<!--                            <th scope="row">${detail.price}</th>-->
-<!--                            <th scope="row">-->
-<!--                                <a class="btn btn-sm btn-danger" href="/product/delete/${detail.idProductDetail}">Remove</a>-->
-<!--                            </th>-->
-<!--                        </tr>-->
-<!--                    `;-->
-<!--                    tableBody.innerHTML += row;-->
-<!--                });-->
+<!--                console.log('Dữ liệu chi tiết sản phẩm:', JSON.stringify(data, null, 2));-->
+<!--                updateProductDetailTable(data);-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Lỗi khi lấy dữ liệu:', error);-->
 <!--            });-->
 <!--    }-->
 <!--</script>-->
-<script>
-    // document.addEventListener('DOMContentLoaded', function () {
-    // Đặt tất cả code JavaScript ở đây
-    console.log('Container:', document.getElementById('productDetailContainer'));
-    console.log('Table body:', document.querySelector('#productDetailTable tbody'));
-
-    function selectProduct(idProduct) {
-        document.getElementById('idProduct').value = idProduct;
-
-        let container = document.getElementById('productDetailContainer');
-        let tableBody = document.querySelector('#productDetailTable tbody');
-
-        if (!container || !tableBody) {
-            console.error('Không tìm thấy phần tử container hoặc bảng chi tiết sản phẩm');
-            return;
-        }
-
-        container.style.display = 'block';
-        tableBody.innerHTML = '<tr><td colspan="7">Đang tải dữ liệu...</td></tr>';
-
-        fetch('/product/details/' + idProduct)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Dữ liệu chi tiết sản phẩm:', JSON.stringify(data, null, 2));
-                updateProductDetailTable(data);
-            })
-            .catch(error => {
-                console.error('Lỗi khi lấy dữ liệu:', error);
-            });
-    }
-
-    function updateProductDetailTable(details) {
-        var tableBody = document.querySelector('#productDetailTable tbody');
-        tableBody.innerHTML = ''; // Xóa dữ liệu cũ
-
-        details.forEach((detail, index) => {
-            console.log('Full detail:', detail);
-            console.log('Product:', detail.product);
-            console.log('Size:', detail.size);
-            console.log('Color:', detail.color);
-
-            let productName = detail.product && detail.product.name ? detail.product.name : 'N/A';
-            let sizeName = detail.size && detail.size.name ? detail.size.name : 'N/A';
-            let colorName = detail.color && detail.color.name ? detail.color.name : 'N/A';
-
-            let row = `
-            <tr>
-                <th scope="row">${index + 1}</th>
-                <td>${detail.code || 'N/A'}</td>
-                <td>${productName} - ${sizeName} - ${colorName}</td>
-                <td>${detail.amount || 'N/A'}</td>
-                <td>${detail.inputPrice || 'N/A'}</td>
-                <td>${detail.price || 'N/A'}</td>
-                <td>
-                    <a class="btn btn-sm btn-danger" href="/product/delete/${detail.idProductDetail}">Xóa</a>
-                </td>
-            </tr>
-        `;
-            tableBody.innerHTML += row;
-        });
-    }
-
-    // });
-</script>
 </body>
 </html>

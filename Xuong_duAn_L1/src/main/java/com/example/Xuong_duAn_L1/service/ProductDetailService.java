@@ -24,6 +24,8 @@ public class ProductDetailService implements IProductDetailService {
     private SizeRepo sizeRepo;
     @Autowired
     private ColorRepo colorRepo;
+    @Autowired
+    private ProductRepo productRepo;
 
     @Override
     public List<ProductDetail> getAll() {
@@ -31,21 +33,24 @@ public class ProductDetailService implements IProductDetailService {
     }
 
     @Override
-    public ProductDetail addProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor) {
+    public ProductDetail addProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor, Integer idProduct) {
         Size size = sizeRepo.findById(idSize).orElseThrow(() -> new RuntimeException("Size not found"));
         Color color = colorRepo.findById(idColor).orElseThrow(() -> new RuntimeException("Color not found"));
+        Product product = productRepo.findById(idProduct).orElseThrow(() -> new RuntimeException("Product not found"));
 
         ProductDetail add = new ProductDetail();
         add.setSize(size);
         add.setIdSize(size.getIdSize());
         add.setColor(color);
         add.setIdColor(color.getIdColor());
+        add.setProduct(product);  // Đặt đối tượng Product
+        add.setIdProduct(product.getIdProduct());
 
         add.setPrice(productDetail.getPrice());
         add.setCode(productDetail.getCode());
-        add.setIdProduct(productDetail.getIdProduct());
         add.setInputPrice(productDetail.getInputPrice());
         add.setAmount(productDetail.getAmount());
+
         return productDetailRepo.save(add);
     }
 

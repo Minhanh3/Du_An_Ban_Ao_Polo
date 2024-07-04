@@ -8,7 +8,7 @@ public interface IProductDetailService {
 
     List<ProductDetail> getAll();
 
-    ProductDetail addProductDetail(ProductDetail productDetail , Integer idSize , Integer idColor);
+    ProductDetail addProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor, Integer idProduct);
 
     List<ProductDetail> getProductDetailsByProductId(Integer productId);
 }

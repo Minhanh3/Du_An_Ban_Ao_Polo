@@ -69,7 +69,6 @@ public class ProductController {
                              @RequestParam Integer idMaterial,
                              @RequestParam Integer idStyle,
                              @RequestParam Integer idImage
-//                             , @RequestParam MultipartFile imageProduct
             , BindingResult result
     ) {
         if (product.getImageProduct().isEmpty()) {
@@ -113,4 +112,13 @@ public class ProductController {
                     .body("Lỗi khi lấy chi tiết sản phẩm: " + e.getMessage());
         }
     }
+
+    @GetMapping("/addDetail/{id}")
+    public String addProductDetail(@PathVariable int id, Model model) {
+        Product product = productService.findProductById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("newDetail", new ProductDetail());
+        return "product/add_product_detail";
+    }
+
 }
