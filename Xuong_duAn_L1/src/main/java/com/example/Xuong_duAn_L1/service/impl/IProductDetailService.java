@@ -11,4 +11,10 @@ public interface IProductDetailService {
     ProductDetail addProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor, Integer idProduct);
 
     List<ProductDetail> getProductDetailsByProductId(Integer productId);
+
+    void deleteProductDetailById(Integer id);
+
+    ProductDetail getProductDetailById(int id);
+
+    ProductDetail updateProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor);
 }

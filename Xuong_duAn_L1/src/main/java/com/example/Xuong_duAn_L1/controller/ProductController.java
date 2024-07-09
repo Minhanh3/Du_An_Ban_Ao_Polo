@@ -1,6 +1,5 @@
 package com.example.Xuong_duAn_L1.controller;
 
-import com.example.Xuong_duAn_L1.entity.Brand;
 import com.example.Xuong_duAn_L1.entity.Product;
 import com.example.Xuong_duAn_L1.entity.ProductDetail;
 import com.example.Xuong_duAn_L1.entity.dto.ProductDto;
@@ -10,6 +9,8 @@ import com.example.Xuong_duAn_L1.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -41,6 +41,8 @@ public class ProductController {
     private SizeRepo sizeRepo;
     @Autowired
     private ColorRepo colorRepo;
+    @Autowired
+    private ProductRepo productRepo;
 
     @GetMapping({"", "/"})
     public String getAllSp(@RequestParam(defaultValue = "0") Integer page,
@@ -121,4 +123,38 @@ public class ProductController {
         return "product/add_product_detail";
     }
 
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam(required = false) String productName,
+                                 @RequestParam(required = false) Integer idBrand,
+                                 @RequestParam(required = false) Integer idMaterial,
+                                 @RequestParam(required = false) Integer idStyle,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size,
+                                 Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepo.searchProduct(productName, idBrand, idMaterial, idStyle, pageable);
+
+        model.addAttribute("list", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("totalItems", productPage.getTotalElements());
+        model.addAttribute("size", size);
+
+        // Add search parameters to model for maintaining state
+        model.addAttribute("productName", productName);
+        model.addAttribute("selectedBrand", idBrand);
+        model.addAttribute("selectedMaterial", idMaterial);
+        model.addAttribute("selectedStyle", idStyle);
+
+        // Add necessary data for dropdowns
+        model.addAttribute("brands", brandRepo.findAll());
+        model.addAttribute("materials", materialRepo.findAll());
+        model.addAttribute("styles", styleRepo.findAll());
+
+        // Add other necessary attributes
+        model.addAttribute("add", new ProductDto());
+
+        return "product/home_product";
+    }
 }

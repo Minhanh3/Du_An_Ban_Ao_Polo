@@ -58,4 +58,40 @@ public class ProductDetailController {
         return "redirect:/productDetail/addDetail/" + idProduct;
     }
 
+    @GetMapping("edit/{id}")
+    public String showEditForm(@PathVariable int id, Model model) {
+        ProductDetail productDetail = productDetailService.getProductDetailById(id);
+        if (productDetail == null) {
+            return "redirect:/product";
+        }
+
+        model.addAttribute("productDetail", productDetail);
+        model.addAttribute("sizes", sizeRepo.findAll());
+        model.addAttribute("colors", colorRepo.findAll());
+
+        return "product/edit_product_detail";
+    }
+
+    @PostMapping("update")
+    public String updateProductDetail(@ModelAttribute ProductDetail productDetail,
+                                      @RequestParam Integer idSize,
+                                      @RequestParam Integer idColor,
+                                      @RequestParam Integer idProduct) {
+        productDetailService.updateProductDetail(productDetail, idSize, idColor, idProduct);
+        return "redirect:/productDetail/addDetail/" + idProduct;
+    }
+
+    @GetMapping("delete/{id}")
+    public String deleteProductDetail(@PathVariable int id) {
+        // Lấy ProductDetail trước khi xóa
+        ProductDetail productDetail = productDetailService.getProductDetailById(id);
+        if (productDetail != null) {
+            Integer idProduct = productDetail.getProduct().getIdProduct();
+            productDetailService.deleteProductDetailById(id);
+            return "redirect:/productDetail/addDetail/" + idProduct;
+        } else {
+            // Xử lý trường hợp không tìm thấy ProductDetail
+            return "redirect:/product"; // hoặc trang lỗi phù hợp
+        }
+    }
 }
