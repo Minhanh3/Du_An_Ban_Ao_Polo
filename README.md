@@ -27,11 +27,11 @@ Click vào sử dụng git để sử dụng
 
 ##### - git push là một lệnh  được sử dụng nhiều của git. Một lệnh push đơn giản sẽ gửi thay đổi tới master branch của repositorys của server từ xa được chỉ định  với một thư mục. Ví dụ:
 
-  git push origin master ( master có thể thay đổi )
+  git push origin master ( master tên có thể thay đổi )
 
 ##### - Một branch mới có thể được tạo bằng cách dùng lệnh sau:
 
-  git checkout -b feature_n *
+  git checkout -b feature_n * ( feature_n * tên nhánh có thể thay đổi )
 
 ##### - Nếu chuyển về master branch chính là cần thiết, sử dụng git command sau:
 
