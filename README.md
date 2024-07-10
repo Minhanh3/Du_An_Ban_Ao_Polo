@@ -1,7 +1,5 @@
 # 1. Hello world
 
-Hello World
-
 Xưởng dự án bán Áo T shirt - Man
 
 Cập nhật liên tục 
@@ -10,4 +8,22 @@ Thêm người edit gửi tên username cho Mạnh
 
 Click vào sử dụng git để sử dụng
 
-hihihi 
+# 2. Sử dụng git
+
+Lệnh này được dùng để tạo GIT repository. Cách dùng:
+
+git init
+
+Lệnh git add có thể được dùng để thêm file vào index. Ví dụ, command sau có thể thêm một file có tên temp.txt vào thư mục local vào index:
+
+git add .
+
+Lệnh git commit được dùng để commit thay đổi từ đầu. Hãy lưu ý là thay đổi không được áp dụng cho repository của server từ xa :
+
+git commit –m “Message to go with the commit here”
+
+Lệnh git status hiển thị dnah sách thay đổi của files được thêm hoặc commited. Cách dùng:
+
+git push là một lệnh  được sử dụng nhiều của git. Một lệnh push đơn giản sẽ gửi thay đổi tới master branch của repositorys của server từ xa được chỉ định  với một thư mục. Ví dụ:
+
+git push origin master ( master có thể thay đổi )
