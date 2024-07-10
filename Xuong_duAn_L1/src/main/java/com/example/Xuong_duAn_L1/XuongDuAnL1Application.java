@@ -31,7 +31,7 @@ public class XuongDuAnL1Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.printf("Hello Word");
         // chạy 1 lần xong cmt lại all dòng dưới
-        /*
+
         String[] style = {"Classic Fit" , "Slim Fit", "Modern Fit", "Relaxed Fit", "Performance Polo", "Long Sleeve Polo", "Rugby Polo", "Contrast Collar", "Striped Polo"};
         for (String style1 : style) {
             Style style2 = new Style();
@@ -67,7 +67,7 @@ public class XuongDuAnL1Application implements CommandLineRunner {
             image.setStatus(1);
             imageRepo.save(image);
         }
-         */
+
 
     }
 }
