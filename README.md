@@ -36,3 +36,10 @@ Click vào sử dụng git để sử dụng
 ##### - Nếu chuyển về master branch chính là cần thiết, sử dụng git command sau:
 
   git checkout master ( master tên nhánh cần chuyển )
+# 3. InteniJ New
+
+https://www.jetbrains.com/idea/download/?section=windows
+
+##### - InteniJ phiên bản khác
+
+https://www.jetbrains.com/idea/download/other.html
