@@ -1,7 +1,11 @@
 package com.example.Xuong_duAn_L1;
 
-import com.example.Xuong_duAn_L1.entity.*;
-import com.example.Xuong_duAn_L1.repository.*;
+import com.example.Xuong_duAn_L1.entity.Color;
+import com.example.Xuong_duAn_L1.entity.InitializationFlag;
+import com.example.Xuong_duAn_L1.entity.Size;
+import com.example.Xuong_duAn_L1.repository.ColorRepo;
+import com.example.Xuong_duAn_L1.repository.InitializationFlagRepo;
+import com.example.Xuong_duAn_L1.repository.SizeRepo;
 import com.example.Xuong_duAn_L1.util.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,11 +21,7 @@ public class XuongDuAnL1Application implements CommandLineRunner {
     @Autowired
     private ColorRepo colorRepo;
     @Autowired
-    private SizeRepo sizeRepo;
-    @Autowired
-    private ImageRepo imageRepo;
-    @Autowired
-    private StyleRepo styleRepo;
+    SizeRepo sizeRepo;
 
     public static void main(String[] args) {
         SpringApplication.run(XuongDuAnL1Application.class, args);
@@ -30,17 +30,9 @@ public class XuongDuAnL1Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.printf("Hello Word");
-        // chạy 1 lần xong cmt lại all dòng dưới
+        // chạy xong cmt lại all dòng dưới
         /*
-        String[] style = {"Classic Fit" , "Slim Fit", "Modern Fit", "Relaxed Fit", "Performance Polo", "Long Sleeve Polo", "Rugby Polo", "Contrast Collar", "Striped Polo"};
-        for (String style1 : style) {
-            Style style2 = new Style();
-            style2.setCode("S_"+CodeGenerator.generateRandomCode(3));
-            style2.setName(style1);
-            style2.setUploadDate(LocalDate.now());
-            style2.setStatus(1);
-            styleRepo.save(style2);
-        }
+
         String[] names = {"white", "black", "wine", "yellow", "olive", "navy"};
         for (String name : names) {
             Color color = new Color();
@@ -59,15 +51,7 @@ public class XuongDuAnL1Application implements CommandLineRunner {
             size.setStatus(1);
             sizeRepo.save(size);
         }
-        for (int i = 0; i < 1; i++) {
-            Image image = new Image();
-            image.setCode("I001");
-            image.setName("Anh se");
-            image.setUploadDate(LocalDate.now());
-            image.setStatus(1);
-            imageRepo.save(image);
-        }
-         */
 
+         */
     }
 }

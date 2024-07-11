@@ -2,7 +2,10 @@ package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Product;
 import com.example.Xuong_duAn_L1.entity.ProductDetail;
-import com.example.Xuong_duAn_L1.repository.*;
+import com.example.Xuong_duAn_L1.repository.BrandRepo;
+import com.example.Xuong_duAn_L1.repository.ImageRepo;
+import com.example.Xuong_duAn_L1.repository.MaterialRepo;
+import com.example.Xuong_duAn_L1.repository.StyleRepo;
 import com.example.Xuong_duAn_L1.service.ProductDetailService;
 import com.example.Xuong_duAn_L1.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("productDetail")
@@ -29,69 +30,57 @@ public class ProductDetailController {
     private MaterialRepo materialRepo;
     @Autowired
     private StyleRepo styleRepo;
-    @Autowired
-    private SizeRepo sizeRepo;
-    @Autowired
-    private ColorRepo colorRepo;
 
-    @GetMapping("/addDetail/{id}")
-    public String addProductDetail(@PathVariable int id, Model model) {
-        Product product = productService.findProductById(id);
-        List<ProductDetail> productDetails = productDetailService.getProductDetailsByProductId(id);
+    //    @GetMapping("")
+//    public String getAllSp(@RequestParam(defaultValue = "0") Integer page,
+//                           @RequestParam(defaultValue = "10") Integer size,
+//                           Model model) {
+//        if (page == null || page < 0) {
+//            page = 0;
+//        }
+//        if (size == null || size < 1) {
+//            size = 5;
+//        }
+//        Page<Product> productPage = productService.getAll(page, size);
+//        model.addAttribute("list", productPage.getContent());
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", productPage.getTotalPages());
+//        model.addAttribute("totalItems", productPage.getTotalElements());
+//        model.addAttribute("size", size);
+//
+////        model.addAttribute("addct", new ProductDetail());
+//        model.addAttribute("brand", brandRepo.findAll());
+//        model.addAttribute("image", imageRepo.findAll());
+//        model.addAttribute("material", materialRepo.findAll());
+//        model.addAttribute("style", styleRepo.findAll());
+//        return "product/home_product";
+//    }
 
-        model.addAttribute("product", product);
-        model.addAttribute("productDetails", productDetails);
-        model.addAttribute("newDetail", new ProductDetail());
-        model.addAttribute("sizes", sizeRepo.findAll());
-        model.addAttribute("colors", colorRepo.findAll());
-
-        return "product/add_product_detail";
-    }
+//    @PostMapping("addCt")
+//    public String addProduct(Product product,
+//                             @RequestParam Integer idBrand,
+//                             @RequestParam Integer idMaterial,
+//                             @RequestParam Integer idStyle,
+//                             @RequestParam Integer idImage
+//    ) {
+//        productService.addProduct(product, idStyle, idBrand, idMaterial, idImage);
+//        return "redirect:/product";
+//    }
 
     @PostMapping("add")
-    public String addProductDetail(@ModelAttribute ProductDetail productDetail,
+    public String addProductDetail(ProductDetail productDetail,
                                    @RequestParam Integer idSize,
-                                   @RequestParam Integer idColor,
-                                   @RequestParam Integer idProduct) {
-        productDetailService.addProductDetail(productDetail, idSize, idColor, idProduct);
-
-        return "redirect:/productDetail/addDetail/" + idProduct;
+                                   @RequestParam Integer idColor
+    ) {
+        productDetailService.addProductDetail(productDetail, idSize, idColor);
+        return "redirect:/product";
     }
 
     @GetMapping("edit/{id}")
-    public String showEditForm(@PathVariable int id, Model model) {
-        ProductDetail productDetail = productDetailService.getProductDetailById(id);
-        if (productDetail == null) {
-            return "redirect:/product";
-        }
-
-        model.addAttribute("productDetail", productDetail);
-        model.addAttribute("sizes", sizeRepo.findAll());
-        model.addAttribute("colors", colorRepo.findAll());
-
-        return "product/edit_product_detail";
+    public String edit(@PathVariable int id, Model model) {
+        Product product = productService.findProductById(id);
+        model.addAttribute("detail", product);
+        return "product/detail";
     }
 
-    @PostMapping("update")
-    public String updateProductDetail(@ModelAttribute ProductDetail productDetail,
-                                      @RequestParam Integer idSize,
-                                      @RequestParam Integer idColor,
-                                      @RequestParam Integer idProduct) {
-        productDetailService.updateProductDetail(productDetail, idSize, idColor, idProduct);
-        return "redirect:/productDetail/addDetail/" + idProduct;
-    }
-
-    @GetMapping("delete/{id}")
-    public String deleteProductDetail(@PathVariable int id) {
-        // Lấy ProductDetail trước khi xóa
-        ProductDetail productDetail = productDetailService.getProductDetailById(id);
-        if (productDetail != null) {
-            Integer idProduct = productDetail.getProduct().getIdProduct();
-            productDetailService.deleteProductDetailById(id);
-            return "redirect:/productDetail/addDetail/" + idProduct;
-        } else {
-            // Xử lý trường hợp không tìm thấy ProductDetail
-            return "redirect:/product"; // hoặc trang lỗi phù hợp
-        }
-    }
 }

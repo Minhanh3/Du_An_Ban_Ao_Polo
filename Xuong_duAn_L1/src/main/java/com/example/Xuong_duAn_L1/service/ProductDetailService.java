@@ -9,6 +9,7 @@ import com.example.Xuong_duAn_L1.repository.ProductDetailRepo;
 import com.example.Xuong_duAn_L1.repository.ProductRepo;
 import com.example.Xuong_duAn_L1.repository.SizeRepo;
 import com.example.Xuong_duAn_L1.service.impl.IProductDetailService;
+import com.example.Xuong_duAn_L1.service.impl.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,6 @@ public class ProductDetailService implements IProductDetailService {
     private SizeRepo sizeRepo;
     @Autowired
     private ColorRepo colorRepo;
-    @Autowired
-    private ProductRepo productRepo;
 
     @Override
     public List<ProductDetail> getAll() {
@@ -32,24 +31,21 @@ public class ProductDetailService implements IProductDetailService {
     }
 
     @Override
-    public ProductDetail addProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor, Integer idProduct) {
+    public ProductDetail addProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor) {
         Size size = sizeRepo.findById(idSize).orElseThrow(() -> new RuntimeException("Size not found"));
         Color color = colorRepo.findById(idColor).orElseThrow(() -> new RuntimeException("Color not found"));
-        Product product = productRepo.findById(idProduct).orElseThrow(() -> new RuntimeException("Product not found"));
 
         ProductDetail add = new ProductDetail();
         add.setSize(size);
         add.setIdSize(size.getIdSize());
         add.setColor(color);
         add.setIdColor(color.getIdColor());
-        add.setProduct(product);  // Đặt đối tượng Product
-        add.setIdProduct(product.getIdProduct());
 
         add.setPrice(productDetail.getPrice());
         add.setCode(productDetail.getCode());
+        add.setIdProduct(productDetail.getIdProduct());
         add.setInputPrice(productDetail.getInputPrice());
         add.setAmount(productDetail.getAmount());
-
         return productDetailRepo.save(add);
     }
 
@@ -59,40 +55,6 @@ public class ProductDetailService implements IProductDetailService {
         // Log để kiểm tra dữ liệu
         System.out.println("Retrieved product details: " + details);
         return details;
-    }
-
-    @Override
-    public void deleteProductDetailById(Integer id) {
-        try {
-            productDetailRepo.deleteById(id);
-        } catch (Exception e) {
-            System.out.printf("Lỗi");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public ProductDetail getProductDetailById(int id) {
-        return productDetailRepo.findById(id).orElseThrow(() -> new RuntimeException("Product detail not found"));
-    }
-
-    @Override
-    public ProductDetail updateProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor) {
-        return null;
-    }
-
-    public void updateProductDetail(ProductDetail productDetail, Integer idSize, Integer idColor, Integer idProduct) {
-        Size size = sizeRepo.findById(idSize).orElseThrow(() -> new RuntimeException("Size not found"));
-        Color color = colorRepo.findById(idColor).orElseThrow(() -> new RuntimeException("Color not found"));
-        Product product = productRepo.findById(idProduct).orElseThrow(() -> new RuntimeException("Product not found"));
-
-        productDetail.setSize(size);
-        productDetail.setIdSize(size.getIdSize());
-        productDetail.setColor(color);
-        productDetail.setIdColor(color.getIdColor());
-        productDetail.setProduct(product);
-        productDetail.setIdProduct(product.getIdProduct());
-        productDetailRepo.save(productDetail);
     }
 
 }

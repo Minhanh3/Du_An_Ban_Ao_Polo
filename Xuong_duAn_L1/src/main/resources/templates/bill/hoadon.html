@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý hóa đơn</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .list-group-item {
+            cursor: pointer;
+        }
+
+        .list-group-item:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+
+<body>
+<header class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">LOGO</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Đơn hàng</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Báo cáo</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Cài đặt</a></li>
+        </ul>
+        <span class="navbar-text">Nhân viên</span>
+    </div>
+</header>
+<main class="container my-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">Hóa đơn</h5>
+                    <form th:action="@{/timkiem}" method="get" class="form-inline">
+                        <input type="text" name="keyword" class="form-control mr-2" placeholder="Tìm kiếm hóa đơn">
+                        <input type="date" name="startDate" class="form-control mr-2">
+                        <input type="date" name="endDate" class="form-control mr-2">
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group" id="billList" th:each="bill, iterStat : ${listBill.content}">
+                        <a th:href="@{/billdetail/{id}(id=${bill.id})}" class="list-group-item" th:data-id="${iterStat.index}" th:data-khachhang="${bill.khachhang != null ? bill.khachhang.name : 'Khách lẻ'}" th:data-tongtien="${bill.tongtien}" th:data-ngaytao="${bill.ngaytao}">
+                            <div>
+                                <div>Tên Khách Hàng: <strong th:text="${bill.khachhang != null ? bill.khachhang.name : 'Khách lẻ'}"></strong></div>
+                                <div>Tổng Tiền: <span th:text="${bill.tongtien}"></span></div>
+                                <div>Ngày Mua: <span th:text="${bill.ngaytao}"></span></div>
+                            </div>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Chi tiết hóa đơn</h5>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <div>Mã Hóa Đơn: <span id="maHoaDon" th:text="${bill.id}"></span></div>
+                        <div>Thông Tin Hóa Đơn:</div>
+                        <div id="thongTinHoaDon"></div>
+                    </div>
+                    <table class="table mt-3">
+                        <thead>
+                        <tr><th>STT</th>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody id="chiTietHoaDon">
+                        <tr th:each="billdetail,iterStat:${billdetails}">
+                            <td th:text="${iterStat.index}"></td>
+                            <td th:text="${billdetail.productDetail.name}"></td>
+                            <td th:text="${billdetail.quantity}"></td>
+                            <td th:text="${billdetail.productDetail.Price}"></td>
+                            <td th:text="${billdetail.productDetail.Price*billdetailquantity}"></td>
+                        </tr>
+                        <!-- Dữ liệu chi tiết hóa đơn sẽ được chèn ở đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

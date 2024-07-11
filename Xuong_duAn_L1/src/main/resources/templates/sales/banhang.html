@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bán hàng tại quầy</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #23272b !important;
+        }
+
+        .order-summary {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover,
+        .btn-danger:focus,
+        .btn-danger:active {
+            background-color: #c82333 !important;
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1055;
+        }
+    </style>
+</head>
+
+<body>
+<header class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">LOGO</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Đơn hàng</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Báo cáo</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Cài đặt</a></li>
+        </ul>
+        <span class="navbar-text">Nhân viên</span>
+    </div>
+</header>
+<main class="container my-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Tìm kiếm sản phẩm</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <select class="form-control" id="categoryFilter">
+                                <option value="">Tất cả danh mục</option>
+                                <option value="Áo">Áo</option>
+                                <option value="Quần">Quần</option>
+                                <option value="Phụ kiện">Phụ kiện</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <select class="form-control" id="priceFilter">
+                                <option value="">Tất cả khoảng giá</option>
+                                <option value="0-50">Dưới 50$</option>
+                                <option value="50-100">50$ - 100$</option>
+                                <option value="100+">Trên 100$</option>
+                            </select>
+                        </div>
+                    </div>
+                    <ul class="list-group" id="productList">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h6>Tên</h6>
+                            <h6>Màu Sắc</h6>
+                            <h6>Kích Thước</h6>
+                            <h6>Giá</h6>
+                            <h6></h6>
+                            <h6></h6>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            th:each="p:${listProduct}">
+                            <span th:text="${p.product.name}"></span>
+                            <span th:text="${p.color.name}"></span>
+                            <span th:text="${p.size.name}"></span>
+                            <span th:text="${p.price}"></span>
+                            <a th:href="@{sales/addtocart/{id}(id=${p.idProductDetail})}"
+                               class="btn btn-primary btn-sm">Thêm</a>
+                        </li>
+                        <!-- Thêm các sản phẩm khác tại đây -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group mb-3" id="orderList">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h6>Tên</h6>
+                            <h6>Giá</h6>
+                            <h6>Số Lượng</h6>
+                            <h6></h6>
+                        </li>
+                        <div id="cartItems" th:each="c : ${carts}">
+                            <form th:action="@{sales/updatecart/{id}(id=${c.id})}" method="post" th:object="${c}">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span th:text="${c.productDetail.product.name}"></span>
+                                    <span th:text="${c.productDetail.price}"></span>
+                                    <span>
+                    <input style="width: 35px" type="number" name="quantity" th:value="${c.quantity}"
+                           onchange="this.form.submit()"/>
+                </span>
+                                    <a th:href="@{sales/removecart/{id}(id=${c.id})}" class="btn btn-danger">Xóa</a>
+                                </li>
+                            </form>
+                        </div>
+                    </ul>
+                    <div class="order-summary d-flex justify-content-between">
+                        <span>Tổng tiền:</span>
+                        <span th:text="${totalPrice}"></span>$
+                    </div>
+                    <button class="btn btn-primary btn-block mt-3" onclick="checkCartAndShowModal()">Thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Choose -->
+<div class="modal fade" id="chooseModal" tabindex="-1" aria-labelledby="chooseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chooseModalLabel">Lựa chọn thanh toán</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="display: flex">
+                <button type="button" style="margin-bottom: auto" class="btn btn-primary" onclick="showCustomerModal()">
+                    Khách Quen
+                </button>
+                <a href="sales/payNoAbout" class="btn btn-primary" onclick="payWithoutInfo()"
+                   style="margin-right: 10px" id="payWithoutInfo">Khách Lẻ
+                </a></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalLabel">Thông tin khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="customerForm" th:object="${customer}" action= "sales/pay"
+                      method="post">
+                    <div class="form-group">
+                        <label for="customerName">Tên khách hàng</label>
+                        <input type="text" class="form-control" th:value="${customer.name}" id="customerName"
+                               name="name" placeholder="Nhập tên khách hàng">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Số điện thoại</label>
+                        <input type="text" class="form-control" th:value="${customer.numberPhone}" id="customerPhone"
+                               name="numberPhone" placeholder="Nhập số điện thoại">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email</label>
+                        <input type="email" class="form-control" th:value="${customer.email}" id="customerEmail"
+                               name="email" placeholder="Nhập email">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Địa chỉ</label>
+                        <input type="text" class="form-control" th:value="${customer.address}" id="customerAddress"
+                               name="address" placeholder="Nhập địa chỉ">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function checkCartAndShowModal() {
+        const cartItems = document.getElementById('cartItems');
+        if (cartItems && cartItems.children.length > 0) {
+            $('#chooseModal').modal('show');
+        } else {
+            alert('Giỏ hàng trống. Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.');
+        }
+    }
+
+    function showCustomerModal() {
+        $('#chooseModal').modal('hide');
+        $('#customerModal').modal('show');
+    }
+
+    function payWithoutInfo() {
+        $('#chooseModal').modal('hide');
+    }
+
+</script>
+</body>
+
+</html>
