@@ -55,7 +55,7 @@
                     </form>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group" id="billList" th:each="bill, iterStat : ${listBill.content}">
+                    <ul class="list-group" id="billList" th:each="bill, iterStat : ${bills.content}">
                         <a th:href="@{/billdetail/{id}(id=${bill.id})}" class="list-group-item" th:data-id="${iterStat.index}" th:data-khachhang="${bill.khachhang != null ? bill.khachhang.name : 'Khách lẻ'}" th:data-tongtien="${bill.tongtien}" th:data-ngaytao="${bill.ngaytao}">
                             <div>
                                 <div>Tên Khách Hàng: <strong th:text="${bill.khachhang != null ? bill.khachhang.name : 'Khách lẻ'}"></strong></div>

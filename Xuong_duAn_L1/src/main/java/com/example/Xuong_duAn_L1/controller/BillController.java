@@ -47,7 +47,7 @@ public class BillController {
         return billdetailShow;
     }
 
-    @ModelAttribute("bill")
+    @ModelAttribute("bills")
     public Page<Bill> listBill(@RequestParam(defaultValue = "0") int p,
                                @RequestParam(name = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                @RequestParam(name = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
