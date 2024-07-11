@@ -12,7 +12,8 @@ Click vào sử dụng git để sử dụng
 
 ##### - Lệnh này được dùng để tạo GIT repository. Cách dùng:
 
-  git init
+  git init 
+  chỉ dùng 1 lần ( clone code thì không cần )
 
 ##### - Lệnh git add có thể được dùng để thêm file vào index. Ví dụ, command sau có thể thêm một file có tên temp.txt vào thư mục local vào index:
 
