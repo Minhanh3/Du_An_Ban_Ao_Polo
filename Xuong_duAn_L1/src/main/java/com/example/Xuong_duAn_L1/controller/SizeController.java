@@ -2,6 +2,9 @@ package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Size;
 import com.example.Xuong_duAn_L1.service.SizeService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,10 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/Size")
-public class SizeController {
 
-    @Autowired
-    private SizeService sizeService;
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class SizeController {
+    SizeService sizeService;
 
     @GetMapping("")
     public String index(Model model,

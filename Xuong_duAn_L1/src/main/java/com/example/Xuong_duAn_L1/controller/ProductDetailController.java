@@ -5,6 +5,9 @@ import com.example.Xuong_duAn_L1.entity.ProductDetail;
 import com.example.Xuong_duAn_L1.repository.*;
 import com.example.Xuong_duAn_L1.service.ProductDetailService;
 import com.example.Xuong_duAn_L1.service.ProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,23 +18,18 @@ import java.util.List;
 
 @Controller
 @RequestMapping("productDetail")
+
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductDetailController {
 
-    @Autowired
     private ProductService productService;
-    @Autowired
     private ProductDetailService productDetailService;
-    @Autowired
     private BrandRepo brandRepo;
-    @Autowired
     private ImageRepo imageRepo;
-    @Autowired
     private MaterialRepo materialRepo;
-    @Autowired
     private StyleRepo styleRepo;
-    @Autowired
     private SizeRepo sizeRepo;
-    @Autowired
     private ColorRepo colorRepo;
 
     @GetMapping("/addDetail/{id}")

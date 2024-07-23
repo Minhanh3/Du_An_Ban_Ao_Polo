@@ -4,6 +4,9 @@ import com.example.Xuong_duAn_L1.entity.Material;
 import com.example.Xuong_duAn_L1.entity.dto.MaterialDto;
 import com.example.Xuong_duAn_L1.service.MaterialService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,10 +20,12 @@ import java.time.LocalDate;
 
 @Controller
 @RequestMapping("Material")
+
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MaterialController {
 
-    @Autowired
-    private MaterialService materialService;
+     MaterialService materialService;
 
     @GetMapping({"", "/"})
     public String index(Model model,

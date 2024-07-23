@@ -2,7 +2,9 @@ package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Style;
 import com.example.Xuong_duAn_L1.service.StyleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -11,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/Style")
+
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StyleController {
 
-    @Autowired
-    private StyleService styleService;
+    StyleService styleService;
 
     @GetMapping("")
     public String index(Model model,

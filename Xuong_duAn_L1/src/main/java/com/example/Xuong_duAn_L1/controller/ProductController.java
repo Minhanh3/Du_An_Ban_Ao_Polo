@@ -7,7 +7,9 @@ import com.example.Xuong_duAn_L1.repository.*;
 import com.example.Xuong_duAn_L1.service.ProductDetailService;
 import com.example.Xuong_duAn_L1.service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,31 +25,26 @@ import java.util.List;
 
 @Controller
 @RequestMapping("product")
+
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
-    @Autowired
-    private ProductDetailService productDetailService;
-    @Autowired
-    private BrandRepo brandRepo;
-    @Autowired
-    private ImageRepo imageRepo;
-    @Autowired
-    private MaterialRepo materialRepo;
-    @Autowired
-    private StyleRepo styleRepo;
-    @Autowired
-    private SizeRepo sizeRepo;
-    @Autowired
-    private ColorRepo colorRepo;
-    @Autowired
-    private ProductRepo productRepo;
+    ProductService productService;
+    ProductDetailService productDetailService;
+    BrandRepo brandRepo;
+    ImageRepo imageRepo;
+    MaterialRepo materialRepo;
+    StyleRepo styleRepo;
+    SizeRepo sizeRepo;
+    ColorRepo colorRepo;
+    ProductRepo productRepo;
 
     @GetMapping({"", "/"})
     public String getAllSp(@RequestParam(defaultValue = "0") Integer page,
                            @RequestParam(defaultValue = "5") Integer size,
                            Model model) {
+
         Page<Product> productPage = productService.getAll(page, size);
         model.addAttribute("list", productPage.getContent());
         model.addAttribute("currentPage", page);

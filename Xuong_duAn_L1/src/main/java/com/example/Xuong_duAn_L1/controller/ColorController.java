@@ -2,6 +2,9 @@ package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Color;
 import com.example.Xuong_duAn_L1.service.ColorService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,10 +16,13 @@ import java.util.Arrays;
 
 @Controller
 @RequestMapping("/Color")
+
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ColorController {
-    
-    @Autowired
-    private ColorService colorService;
+
+    //    @Autowired
+    ColorService colorService;
 
     @GetMapping("")
     public String index(Model model,
@@ -48,5 +54,5 @@ public class ColorController {
         colorService.deleteColor(id);
         return "redirect:/Color";
     }
-    
+
 }
