@@ -2,7 +2,7 @@ package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Product;
 import com.example.Xuong_duAn_L1.entity.ProductDetail;
-import com.example.Xuong_duAn_L1.entity.dto.ProductDto;
+import com.example.Xuong_duAn_L1.entity.request.ProductRequest;
 import com.example.Xuong_duAn_L1.repository.*;
 import com.example.Xuong_duAn_L1.service.ProductDetailService;
 import com.example.Xuong_duAn_L1.service.ProductService;
@@ -52,7 +52,7 @@ public class ProductController {
         model.addAttribute("totalItems", productPage.getTotalElements());
         model.addAttribute("size", size);
 
-        model.addAttribute("add", new ProductDto());
+        model.addAttribute("add", new ProductRequest());
         model.addAttribute("sizes", sizeRepo.findAll());
         model.addAttribute("colors", colorRepo.findAll());
         model.addAttribute("brands", brandRepo.findAll());
@@ -63,7 +63,7 @@ public class ProductController {
     }
 
     @PostMapping("add")
-    public String addProduct(@Valid ProductDto product,
+    public String addProduct(@Valid ProductRequest product,
                              @RequestParam Integer idBrand,
                              @RequestParam Integer idMaterial,
                              @RequestParam Integer idStyle,
@@ -150,7 +150,7 @@ public class ProductController {
         model.addAttribute("styles", styleRepo.findAll());
 
         // Add other necessary attributes
-        model.addAttribute("add", new ProductDto());
+        model.addAttribute("add", new ProductRequest());
 
         return "product/home_product";
     }

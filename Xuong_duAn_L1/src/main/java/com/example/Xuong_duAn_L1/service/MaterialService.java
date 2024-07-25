@@ -5,6 +5,10 @@ import com.example.Xuong_duAn_L1.repository.*;
 import com.example.Xuong_duAn_L1.service.impl.IMaterialService;
 import com.example.Xuong_duAn_L1.service.impl.IProductService;
 import com.example.Xuong_duAn_L1.util.CodeGenerator;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,9 +20,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
+@Slf4j
 public class MaterialService implements IMaterialService {
-
-    @Autowired
     private MaterialRepo materialRepo;
 
     @Override
@@ -33,6 +38,7 @@ public class MaterialService implements IMaterialService {
 
     @Override
     public Material addMaterial(Material material) {
+        log.info("hien ra");
         String code = CodeGenerator.generateRandomCode(3);
         material.setCode("M_" + code);
         material.setUploadDate(LocalDate.now());

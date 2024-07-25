@@ -1,13 +1,13 @@
 package com.example.Xuong_duAn_L1.controller;
 
 import com.example.Xuong_duAn_L1.entity.Material;
-import com.example.Xuong_duAn_L1.entity.dto.MaterialDto;
+import com.example.Xuong_duAn_L1.entity.request.MaterialRequest;
 import com.example.Xuong_duAn_L1.service.MaterialService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -16,12 +16,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
-
 @Controller
 @RequestMapping("Material")
-
 @RequiredArgsConstructor
+@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MaterialController {
 
@@ -33,9 +31,8 @@ public class MaterialController {
                         @RequestParam(defaultValue = "10") int size) {
         PageRequest pageable = PageRequest.of(page, size);
         Page<Material> materialPage = materialService.getAllMaterialPaged(pageable);
-
         model.addAttribute("list", materialPage.getContent());
-        model.addAttribute("materialNew", new MaterialDto());
+        model.addAttribute("materialNew", new MaterialRequest());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", materialPage.getTotalPages());
         model.addAttribute("totalItems", materialPage.getTotalElements());
@@ -44,8 +41,9 @@ public class MaterialController {
     }
 
     @PostMapping("add")
-    public String save(@Valid @ModelAttribute MaterialDto material , BindingResult result) {
-//        materialService.addMaterial(material);
+    public String save(@Valid @ModelAttribute Material material , BindingResult result) {
+        materialService.addMaterial(material);
+        log.info(material.toString());
         if (result.hasErrors()) {
                 return "redirect:/Material/";
         }

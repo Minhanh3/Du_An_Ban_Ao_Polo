@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<div th:replace="frag/header :: header"></div>
+<div th:insert="~{frag/header :: header}"></div>
 <div class="d-flex container" style="min-height: 448px;">
     <!--    <div class="w-25">-->
     <!--        <div th:replace="fragments/sidebar :: sidebar"></div>-->
@@ -94,11 +94,11 @@
                     </div>
                 </div>
             </div>
-            <div th:replace="material/page_material :: pageMaterial"></div>
+            <div th:replace="~{material/page_material :: pageMaterial}"></div>
         </div>
     </div>
 </div>
-<div th:replace="frag/footer :: footer"></div>
+<div th:insert="~{frag/footer :: footer}"></div>
 <script>
     const exampleModal = document.getElementById('exampleModal')
     if (exampleModal) {

@@ -1,9 +1,14 @@
 package com.example.Xuong_duAn_L1.service;
 
 import com.example.Xuong_duAn_L1.entity.*;
-import com.example.Xuong_duAn_L1.entity.dto.ProductDto;
+import com.example.Xuong_duAn_L1.entity.request.ProductRequest;
+import com.example.Xuong_duAn_L1.mapper.ProductMapper;
 import com.example.Xuong_duAn_L1.repository.*;
 import com.example.Xuong_duAn_L1.service.impl.IProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,32 +17,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductService implements IProductService {
 
-    @Autowired
-    private ProductRepo productRepo;
-    @Autowired
-    private BrandRepo brandRepo;
-    @Autowired
-    private MaterialRepo materialRepo;
-    @Autowired
-    private StyleRepo styleRepo;
-    @Autowired
-    private ImageRepo imageRepo;
-    @Autowired
-    private ProductDetailRepo productDetailRepo;
+    ProductRepo productRepo;
+    BrandRepo brandRepo;
+    MaterialRepo materialRepo;
+    StyleRepo styleRepo;
+    ImageRepo imageRepo;
+    ProductDetailRepo productDetailRepo;
 
     @Override
     public List<Product> findAllProduct() {
@@ -50,7 +50,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void addProduct(ProductDto productDto,
+    public void addProduct(ProductRequest productRequest,
                            Integer idStyle,
                            Integer idImage,
                            Integer idMaterial,
@@ -61,12 +61,12 @@ public class ProductService implements IProductService {
         Image imageOptional = imageRepo.findById(idBrand).orElse(null);
         Product product = new Product();
         if (brandOptional != null) {
-            product.setIdBrand(productDto.getIdBrand());
+            product.setIdBrand(productRequest.getIdBrand());
         }
         if (imageOptional == null) {
             product.setIdImage(1);
         }
-        MultipartFile image = productDto.getImageProduct();
+        MultipartFile image = productRequest.getImageProduct();
         if (image != null && !image.isEmpty()) {
             Date uploadDate = new Date();
 
@@ -81,23 +81,24 @@ public class ProductService implements IProductService {
                 Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
                 product.setBrand(brandOptional);
-                product.setIdBrand(productDto.getIdBrand());
+                product.setIdBrand(productRequest.getIdBrand());
                 product.setMaterial(materialOptional);
-                product.setIdMaterial(productDto.getIdMaterial());
+                product.setIdMaterial(productRequest.getIdMaterial());
                 product.setStyle(styleOptional);
-                product.setIdStyle(productDto.getIdStyle());
+                product.setIdStyle(productRequest.getIdStyle());
                 product.setImage(imageOptional);
-                product.setIdImage(productDto.getIdImage());
+                product.setIdImage(productRequest.getIdImage());
 
-                product.setCode(productDto.getCode());
-                product.setName(productDto.getName());
+                product.setCode(productRequest.getCode());
+                product.setName(productRequest.getName());
                 product.setImageProduct(storageFileName);
                 product.setUploadDate(LocalDate.now());
-                product.setStatus(productDto.getStatus());
+                product.setStatus(productRequest.getStatus());
 
                 productRepo.save(product);
             } catch (IOException e) {
                 e.printStackTrace();
+                log.error(e.getMessage());
                 // Xử lý ngoại lệ tại đây (ví dụ: ghi log hoặc ném ngoại lệ tùy chỉnh)
             }
         }
